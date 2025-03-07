@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dalyoko test ex</title>
+    <script defer src="script.js" type="module"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Dalyoko test exercise</h1>
+    </header>
+    <main>
+      <form
+        id="form"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          max-width: 20rem;
+        "
+      >
+        <!-- Name -->
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" name="name" id="name" required />
+        </div>
+        <!-- Email -->
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" name="email" id="email" required />
+        </div>
+        <!-- Phone -->
+        <div>
+          <label for="phone">Phone:</label>
+          <input type="tel" name="phone" id="phone" required />
+        </div>
+        <!-- Project Type -->
+        <div>
+          <label for="project_type">Project Type:</label>
+          <input type="text" name="project_type" id="project_type" required />
+        </div>
+        <!-- Project Description -->
+        <div>
+          <label
+            for="project_description"
+            style="display: flex; flex-direction: column"
+            >Project Description:</label
+          >
+          <textarea
+            name="project_description"
+            id="project_description"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+        <!-- Budget Min -->
+        <div>
+          <label for="budget_min">Budget (Minimum):</label>
+          <input
+            type="number"
+            name="budget_min"
+            id="budget_min"
+            min="0"
+            required
+          />
+        </div>
+        <!-- Budget Max -->
+        <div>
+          <label for="budget_max">Budget (Maximum):</label>
+          <input
+            type="number"
+            name="budget_max"
+            id="budget_max"
+            min="0"
+            required
+          />
+        </div>
+        <!-- Submit Button -->
+        <div>
+          <input type="submit" value="Submit" title="submit form" />
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
