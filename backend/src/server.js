@@ -6,10 +6,16 @@ import pool from './db.js';
 const app = express();
 
 dotenv.config();
-const corsOptions = { credentials: true, origin: process.env.URL || '*' };
+const allowedOrigins = process.env.URL ? process.env.URL.split(',') : '*';
+const corsOptions = {
+  credentials: true,
+  origin: allowedOrigins,
+};
+
 const PORT = process.env.PORT || 5000;
 
 app.use(cors(corsOptions));
+
 app.use(json());
 
 app.get('/', async (req, res) => {
@@ -50,7 +56,9 @@ app.post('/', async (req, res) => {
       ]
     );
 
-    res.json(newProject.rows[0]);
+    const tableData = await pool.query(`SELECT * FROM projects;`);
+
+    res.json(tableData.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

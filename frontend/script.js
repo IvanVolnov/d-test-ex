@@ -1,59 +1,57 @@
-const data = {
-  name: 'string',
-  email: 'user@example.com',
-  phone: 'string',
-  project_type: 'string',
-  project_description: 'string',
-  budget_min: 0,
-  budget_max: 0,
-};
+// const data = {
+//   name: 'string',
+//   email: 'user@example.com',
+//   phone: 'string',
+//   project_type: 'string',
+//   project_description: 'string',
+//   budget_min: 0,
+//   budget_max: 0,
+// };
 
 const form = document.getElementById('form');
 const dbResults = document.getElementById('db');
+// const url = 'http://localhost:5000';
+const url = 'https://d-test-ex-production.up.railway.app';
 
-form.addEventListener('submit', (event) => submitFn(event));
-
-async function postData(body) {}
-
-async function submitFn(event) {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  const body = Object.fromEntries(formData.entries());
-  console.log('body:', body);
-
   try {
-    const response = await fetch('http://localhost:5000', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    const formData = new FormData(form);
+    const body = Object.fromEntries(formData.entries());
+    const data = await postData(url, body);
+    console.log('Database data:', data);
 
-    const contentType = response.headers.get('content-type');
-
-    if (!response.ok) {
-      if (contentType && contentType.includes('application/json')) {
-        const error = await response.json();
-        throw new Error(`Error fetching data: ${JSON.stringify(error)}`);
-      } else {
-        const errorText = await response.text();
-        throw new Error(
-          `Unexpected response type: ${
-            contentType || 'unknown'
-          }, error: ${errorText}`
-        );
-      }
-    }
-
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new Error(`Expected JSON response but got: ${contentType}`);
-    }
-
-    const data = await response.json();
-    console.log('data:', data);
-    return data;
+    dbResults.textContent = `Project ${
+      data.at(-1).name
+    } was successfully added to the database! Check the console to view all projects stored on the server.`;
   } catch (error) {
-    throw new Error(`Fetch error: ${error.message || error}`);
+    console.error(error);
+    dbResults.textContent = `Error: ${error.message}`;
   }
+});
+
+async function postData(url, data) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  const contentType = response.headers.get('content-type');
+
+  if (!response.ok) {
+    let errorDetail;
+    if (contentType?.includes('application/json')) {
+      errorDetail = await response.json();
+    } else {
+      errorDetail = await response.text();
+    }
+    throw new Error(`Error fetching data: ${JSON.stringify(errorDetail)}`);
+  }
+
+  if (!contentType?.includes('application/json')) {
+    throw new Error(`Expected JSON response, got: ${contentType}`);
+  }
+
+  return response.json();
 }
