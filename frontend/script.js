@@ -9,19 +9,25 @@ const data = {
 };
 
 const form = document.getElementById('form');
+const dbResults = document.getElementById('db');
 
-form.addEventListener('submit', (event) => submitFn(event, data));
+form.addEventListener('submit', (event) => submitFn(event));
 
-async function submitFn(event, data) {
+async function postData(body) {}
+
+async function submitFn(event) {
   event.preventDefault();
-  console.log(data, event);
+  const formData = new FormData(event.currentTarget);
+  const body = Object.fromEntries(formData.entries());
+  console.log('body:', body);
+
   try {
-    const response = await fetch(process.env.APP_API_URL, {
+    const response = await fetch('http://localhost:5000', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
 
     const contentType = response.headers.get('content-type');
@@ -45,8 +51,9 @@ async function submitFn(event, data) {
     }
 
     const data = await response.json();
+    console.log('data:', data);
     return data;
   } catch (error) {
-    throw new Error(`Fetch error at ${url}: ${error.message || error}`);
+    throw new Error(`Fetch error: ${error.message || error}`);
   }
 }

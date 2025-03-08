@@ -38,7 +38,7 @@
         <!-- Project Type -->
         <div>
           <label for="project_type">Project Type:</label>
-          <input type="text" name="project_type" id="project_type" required />
+          <input type="text" name="project_type" id="project_type" />
         </div>
         <!-- Project Description -->
         <div>
@@ -56,31 +56,23 @@
         </div>
         <!-- Budget Min -->
         <div>
-          <label for="budget_min">Budget (Minimum):</label>
-          <input
-            type="number"
-            name="budget_min"
-            id="budget_min"
-            min="0"
-            required
-          />
+          <label for="budget_min">Minimun budget (in $):</label>
+          <input type="number" name="budget_min" id="budget_min" min="0" />
         </div>
         <!-- Budget Max -->
         <div>
-          <label for="budget_max">Budget (Maximum):</label>
-          <input
-            type="number"
-            name="budget_max"
-            id="budget_max"
-            min="0"
-            required
-          />
+          <label for="budget_max">Maximum budget (in $):</label>
+          <input type="number" name="budget_max" id="budget_max" min="1" />
         </div>
         <!-- Submit Button -->
         <div>
           <input type="submit" value="Submit" title="submit form" />
         </div>
       </form>
+      <p>
+        After every form submission, all current data in the database will
+        appear in the console.
+      </p>
     </main>
   </body>
 </html>
